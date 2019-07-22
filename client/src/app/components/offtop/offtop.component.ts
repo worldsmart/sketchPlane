@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../../service/auth.service";
 
 @Component({
   selector: 'app-offtop',
@@ -8,14 +7,12 @@ import { AuthService } from "../../service/auth.service";
 })
 export class OfftopComponent implements OnInit {
 
-  constructor(private auth:AuthService) { }
+  constructor() { }
 
   ngOnInit() {
   }
 
-  upload(){
-    this.auth.pasteData('data',{"date":new Date()}).subscribe(data =>{
-      console.log(data);
-    });
+  upload() {
+    console.log('aaa');
   }
 }

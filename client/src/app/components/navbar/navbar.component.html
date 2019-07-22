@@ -14,55 +14,109 @@
 		<div class="nav_item" routerLinkActive="active" routerLink="/fanfic">FanFic</div>
 		<div class="nav_item" routerLinkActive="active" routerLink="/info">Info</div>
 		<div (click)='changeState("l");scrollLock(true);' class="nav_item">Sign in</div>
-		<div (click)='changeState();scrollLock(true);' class="nav_item">Sign up</div>
+		<div (click)='changeState("");scrollLock(true);' class="nav_item">Sign up</div>
 	</div>
 </div>
 
 <div [@anim_reg]=currentState class="register">
-	<div class="reg_section">
-		fxgdf
-	</div>
+	<form class="reg_section" novalidate>
+      <div class="reg_title">
+        Sign up
+      </div>
+
+      <div class="reg_item">
+        <div class="item_title">
+          <div>Name:</div>
+          <img *ngIf="this.loading.name" class="item_load" src="assets/img/loading.gif" alt="">
+        </div>
+        <input (input)="check_name()" [(ngModel)]="r_data.name" name="name" type="text" class="item_input">
+        <div *ngIf="this.errors.name" class="item_danger">
+          *{{this.errors.name}}
+        </div>
+      </div>
+
+    <div class="reg_item">
+      <div class="item_title">
+        <div>Email:</div>
+        <img *ngIf="this.loading.email" class="item_load" src="assets/img/loading.gif" alt="">
+      </div>
+      <input (input)="check_email()" [(ngModel)]="r_data.email"  name="email" type="email" class="item_input">
+      <div *ngIf="this.errors.email" class="item_danger">
+        *{{this.errors.email}}
+      </div>
+    </div>
+
+    <div class="reg_item">
+      <div class="item_title">
+        <div>Password:</div>
+        <img *ngIf="this.loading.pass" class="item_load" src="assets/img/loading.gif" alt="">
+      </div>
+      <div style="display: flex"><input style="flex-grow: 1" (input)="check_password()" [(ngModel)]="r_data.pass"  name="pass" type="password" class="item_input"><img (click)="show_password('pass')" class="show_password" src="assets/img/eye-icon.png" alt=""></div>
+      <div *ngIf="this.errors.pass" class="item_danger">
+        *{{this.errors.pass}}
+      </div>
+    </div>
+
+    <div class="reg_item">
+      <div class="item_title">
+        <div>Repeat password:</div>
+        <img  *ngIf="this.loading.rpass" class="item_load" src="assets/img/loading.gif" alt="">
+      </div>
+      <input (input)="check_pmatch()" [(ngModel)]="r_data.rpass"  name="rpass" type="password" class="item_input">
+      <div *ngIf="this.errors.rpass" class="item_danger">
+        *{{this.errors.rpass}}
+      </div>
+    </div>
+
+    <div *ngIf="allF" class="item_danger">
+      *Please fill in all fields.
+    </div>
+      <div class="button_block">
+        <button (click)='changeState("");scrollLock(false);' class="button_dark reg_button">
+          Close
+        </button>
+        <button (click)='onSubmit()' class="button_dark reg_button">
+          Sign up
+        </button>
+      </div>
+	</form>
 </div>
 
 <div [@anim_reg]=currentState_l class="register">
-	<form #logForm='ngForm' class="reg_section" novalidate>
+  <form class="reg_section">
+    <div class="reg_title">
+      Sign in
+    </div>
 
-		<div class="reg_item">
-			<label>Email:</label>
-			<input required pattern='^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$' class="reg_input" type="email" name="l_email" #l_email='ngModel' ngModel>
-		</div>
-		<div class="alert_danger" *ngIf="l_email.invalid && (l_email.dirty || l_email.touched)">
-			<div *ngIf="l_email.errors.required">
-   				 Email is required.l
- 			</div>
-  			<div *ngIf="l_email.errors.pattern">			
-				Please enter your real email
- 			</div>
-		</div>
+    <div class="reg_item">
+      <div class="item_title">
+        <div>Email:</div>
+      </div>
+      <input [(ngModel)]="l_data.email" name="l_email" type="email" class="item_input">
+    </div>
 
-		<div class="reg_item">
-			<label>Password:</label>
-			<input required minlength="6" pattern="^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{1,16}$" class="reg_input" type="Password" name="l_pass" #l_pass='ngModel' ngModel>
-		</div>
-		<div class="alert_danger" *ngIf="l_pass.invalid && (l_pass.dirty || l_pass.touched)">
-			<div *ngIf="l_pass.errors.required">
-   				 Password is required.
- 			</div>
- 			<div *ngIf="l_pass.errors.minlength">
-   				 Password must be at least 6 characters long.
-  			</div>
-  			<div *ngIf="l_pass.errors.pattern">			
-				The password must consist of Latin alphabet letters and numbers and contain a number
- 			</div>
-		</div>
+    <div class="reg_item">
+      <div class="item_title">
+        <div>Password:</div>
+      </div>
+      <div style="display: flex"><input [(ngModel)]="l_data.pass" style="flex-grow: 1"  name="l_pass" type="password" class="item_input"><img (click)="show_password('l_pass')" class="show_password" src="assets/img/eye-icon.png" alt=""></div>
+    </div>
 
-		<div class="button_item">
-			<button (click)='changeState("l");scrollLock(false);' class="reg_button close_button">
-				Close
-			</button>
-			<button (click)='changeState("l")' [disabled]="!logForm.valid" class="reg_button submit_button">
-				Sign in
-			</button>
-		</div>
-	</form>
+    <div style="display: flex">
+      <div *ngIf="this.errors.login" class="item_danger">
+        *{{this.errors.login}}
+      </div>
+      <img *ngIf="this.loading.login" style="margin-left: auto" class="item_load" src="assets/img/loading.gif" alt="">
+    </div>
+
+
+    <div class="button_block">
+      <button (click)='changeState("1");scrollLock(false);' class="button_dark reg_button">
+        Close
+      </button>
+      <button (click)='onLogin()' class="button_dark reg_button">
+        Sign in
+      </button>
+    </div>
+  </form>
 </div>

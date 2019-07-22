@@ -15,7 +15,6 @@ import { OfftopComponent } from './components/offtop/offtop.component';
 import { FanficComponent } from './components/fanfic/fanfic.component';
 import { InfoComponent } from './components/info/info.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +30,7 @@ import { InfoComponent } from './components/info/info.component';
     FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],

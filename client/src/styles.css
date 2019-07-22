@@ -17,3 +17,24 @@
 html{
     background: #8C6DD7;
 }
+
+.button_dark{
+  background-color: #3a4351;
+  color: #dce4f2;
+  border: none;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.6);
+  cursor: pointer;
+}
+
+.button_dark:hover{
+  background-color: #30353d;
+}
+
+.button_dark:active{
+  background-color: #30353d;
+  border:none;
+}
+
+.rc-anchor .rc-anchor-invisible .rc-anchor-light  .rc-anchor-invisible-hover{
+ opacity: 0;
+}

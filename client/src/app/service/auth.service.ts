@@ -7,26 +7,13 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class AuthService {
 
-  constructor(private http:HttpClient) { }
-
-  newUser(data){
-
-  const httpOptions = {
-  	headers: new HttpHeaders({
-   	 'Content-Type':  'application/json'
- 	 })
-	};
-  	this.http.post('/api/newuser', data, httpOptions).subscribe((data)=>{
-        console.log(data);
-      });
-  }
-
-  pasteData(url,data){
+  constructor(private http: HttpClient) {}
+  post(data: any, url: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
       })
     };
-    return this.http.post('/api/' + url, data, httpOptions);
+    return this.http.post(url, data, httpOptions);
   }
 }
