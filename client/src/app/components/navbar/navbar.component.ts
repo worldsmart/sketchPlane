@@ -151,8 +151,15 @@ export class NavbarComponent implements OnInit {
       return;
     }
     if(!this.errors.pass && !this.errors.rpass && !this.errors.name && !this.errors.email){
-      this.auth.post(this.r_data, '/api/data').subscribe((res)=>{
-        console.log(res);
+      this.auth.post(this.r_data, '/api/new_user').subscribe((res)=>{
+        if(res['err']){
+          this.errors.rpass = 'Some connection errors!';
+        }
+        else if(res['jwt']){
+          for(var a in res){
+            sessionStorage.setItem(a,res[a]);
+          }
+        }
       });
       this.changeState("");
       this.scrollLock(false);
@@ -160,15 +167,16 @@ export class NavbarComponent implements OnInit {
   }
   onLogin(){
     this.loading.login = true;
-    this.auth.post( this.l_data, 'api/data').subscribe((res)=>{
-      if(res['error']){
-        this.errors.login = res['error'];
+    this.auth.post( this.l_data, 'api/login').subscribe((res)=>{
+      if(res['err']){
+        this.errors.login = res['err']['fb'];
         this.loading.login = false;
         return;
       }
-      else {
-        console.log(res);
-        this.errors.login = res['email'];
+      else if(res['jwt']){
+        for(var a in res){
+          sessionStorage.setItem(a,res[a]);
+        }
         this.loading.login = false;
       }
     });

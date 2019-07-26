@@ -11,12 +11,10 @@ client.query('SELECT NOW()', (err, res) => {
 
 module.exports.email_verify = function (data){
     var tmp = [data['email']];
-     return client.query('SELECT id FROM users WHERE email = $1', tmp);
+     return client.query('SELECT * FROM users WHERE email = $1', tmp);
 }
 
 module.exports.new_user = function (data){
     var tmp = [data['name'],data['email'],data['pass'],new Date()];
-    client.query('INSERT INTO users(name, email, password, reg_date) VALUES($1, $2, $3, $4)',tmp)
-        .then((res)=>console.log(res))
-        .catch(e=>console.error(e.stack));
+    return client.query('INSERT INTO users(name, email, password, reg_date) VALUES($1, $2, $3, $4)',tmp);
  }
