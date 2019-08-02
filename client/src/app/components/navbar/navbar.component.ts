@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import {Router} from "@angular/router";
 
 import { AuthService } from '../../service/auth.service';
 import { ScrollLockService } from '../../service/scroll-lock.service';
+import {TokenVerifyGuard} from "../../guard/token-verify.guard";
 
 import { load } from 'recaptcha-v3'
 import {element} from "protractor";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-navbar',
@@ -25,8 +28,12 @@ import {element} from "protractor";
 
 export class NavbarComponent implements OnInit {
 
-	currentState = 'initial';
-	currentState_l = 'initial';
+	state = {
+	  'login':'initial',
+    'register':'initial',
+    'profile':'initial',
+    'a_button':false
+  }
 
 	loading = {
 	  'name': false,
@@ -41,7 +48,8 @@ export class NavbarComponent implements OnInit {
     'email': '',
     'pass': '',
     'rpass': '',
-    'login':''
+    'login':'',
+    'profile':''
   }
 
   public r_data = {
@@ -57,20 +65,22 @@ export class NavbarComponent implements OnInit {
   }
 
 	changeState(param: string) {
-		if (param) {
-			this.currentState_l = this.currentState_l === 'initial' ? 'shown' : 'initial';
-		} else {
-			this.currentState = this.currentState === 'initial' ? 'shown' : 'initial';
-		}
+		if (param == 'login') {
+			this.state['login'] = this.state['login'] === 'initial' ? 'shown' : 'initial';
+		} else if(param == 'register'){
+			this.state['register'] = this.state['register'] === 'initial' ? 'shown' : 'initial';
+		} else if ('profile'){
+      this.state['profile'] = this.state['profile'] === 'initial' ? 'shown' : 'initial';
+    }
 	}
 
-  constructor(private auth: AuthService, private sl: ScrollLockService) { }
+  constructor(private auth: AuthService, private sl: ScrollLockService,private guard:TokenVerifyGuard,private router:Router) { }
 
   ngOnInit() {
 
   }
 
-  check_name(){
+    check_name(){
     this.allF =false;
 	  this.loading.name = true;
     this.errors.name = '';
@@ -157,19 +167,20 @@ export class NavbarComponent implements OnInit {
         }
         else if(res['jwt']){
           for(var a in res){
-            sessionStorage.setItem(a,res[a]);
+            sessionStorage.setItem(a,res[a], );
           }
+          this.changeState("register");
+          this.scrollLock(false);
+          window.location.reload();
         }
       });
-      this.changeState("");
-      this.scrollLock(false);
     }
   }
   onLogin(){
     this.loading.login = true;
     this.auth.post( this.l_data, 'api/login').subscribe((res)=>{
       if(res['err']){
-        this.errors.login = res['err']['fb'];
+        this.errors.login = res['err'];
         this.loading.login = false;
         return;
       }
@@ -178,7 +189,18 @@ export class NavbarComponent implements OnInit {
           sessionStorage.setItem(a,res[a]);
         }
         this.loading.login = false;
+        this.changeState("login");
+        this.scrollLock(false);
+        this.guard.log_update();
       }
     });
+  }
+  profile(){
+    if(!this.auth.user) this.auth.getUser();
+    if(this.auth.user['err']) this.errors.profile = this.auth.user['err'];
+  }
+  logout(){
+    sessionStorage.clear();
+    this.guard.log_update();
   }
 }
