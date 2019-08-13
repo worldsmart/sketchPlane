@@ -14,6 +14,7 @@ import { MainComponent } from './components/main/main.component';
 import { OfftopComponent } from './components/offtop/offtop.component';
 import { FanficComponent } from './components/fanfic/fanfic.component';
 import { InfoComponent } from './components/info/info.component';
+import { FlashActivitesComponent } from './components/flash-activites/flash-activites.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { InfoComponent } from './components/info/info.component';
     MainComponent,
     OfftopComponent,
     FanficComponent,
-    InfoComponent
+    InfoComponent,
+    FlashActivitesComponent
   ],
   imports: [
     BrowserModule,

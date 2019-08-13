@@ -1,5 +1,10 @@
-<p>
-  <button (click)="upload()">
-    Click me!
-  </button>
-</p>
+<div class="main">
+  <div id="status" class="status">
+    {{this.ws.connection_status}}
+  </div>
+  <div id="block">
+
+  </div>
+  <textarea [(ngModel)]="text"></textarea>
+  <button (click)="click()">Send</button>
+</div>

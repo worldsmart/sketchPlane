@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const expressWs = require('express-ws')(app);
 const bodyParser = require('body-parser');
 const path = require('path');
 const router = require('./routes/router.js');
@@ -12,5 +13,5 @@ app.use(express.static(path.join(__dirname, "404")));
 app.use('/', router);
 
 app.listen(port,()=>{
-console.log("Server started on port: " + port + " | " + new Date().toTimeString());
+    console.log("Server started on port: " + port + " | " + new Date().toTimeString());
 });

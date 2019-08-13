@@ -8,35 +8,16 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class TokenVerifyGuard implements CanActivate {
-  constructor(private auth: AuthService) {
-    this.view();
+  constructor(private auth: AuthService) {}
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    if(localStorage.getItem('jwt') && !this.auth.user) this.auth.update_user();
+    console.log(route, state);
+    return true;
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>{
-    return this.auth.isLoggedIn();
-  }
-
- // canLoad(route: Route, segments: UrlSegment[]): Observable<boolean>{
-  //  return this.canActivate()
-  //}
-
-  isLogged:boolean;
-
-  log_update(){
-    this.auth.isLoggedIn().subscribe(d=>{
-      if(d) this.isLogged = true;
-      else this.isLogged = false;
-    });
-  }
-
-  view(){
-    setTimeout(()=>{
-      this.view()
-    },30000);
-    this.auth.isLoggedIn().subscribe(d=>{
-      if(d) this.isLogged = true;
-      else this.isLogged = false;
-    });
-
+  user(){
+    if(localStorage.getItem('jwt') && !this.auth.user) this.auth.update_user();
+    else if(this.auth.user && !this.auth.user['err']) return true;
+    return false;
   }
 }

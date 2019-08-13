@@ -1,0 +1,186 @@
+<!-- Buttons on navbar -->
+<div *ngIf="!this.guard.user()" (click)='changeState("login");this.sl.use(true);' class="nav_item">Sign in</div>
+<div *ngIf="!this.guard.user()" (click)='changeState("register");this.sl.use(true);' class="nav_item">Sign up</div>
+<div *ngIf="this.guard.user()" (click)="changeState('profile');this.sl.use(true);" class="nav_item">Profile</div>
+<div *ngIf="this.guard.user()" (click)="logout()" class="nav_item">Logout</div>
+
+<!-- Register menu -->
+
+<div [@anim_activity]="state.register" class="activity">
+  <form class="activity_section" novalidate>
+    <div class="activity_title">
+      Sign up
+    </div>
+    <div class="activity_item">
+      <div class="item_title">
+        Name: <img *ngIf="loading.name" src="./assets/img/loading.gif" alt="loading" class="item_load">
+      </div>
+      <input (input)="validate_name('register')" type="text" class="item_input" name="name" [(ngModel)]="register_model.name">
+      <div class="item_danger">{{this.error.name}}</div>
+    </div>
+    <div class="activity_item">
+      <div class="item_title">
+        Email: <img *ngIf="loading.email" src="./assets/img/loading.gif" alt="loading" class="item_load">
+      </div>
+      <input (input)="validate_Email('register')" type="email" class="item_input" name="email" [(ngModel)]="register_model.email">
+      <div class="item_danger">{{this.error.email}}</div>
+    </div>
+    <div class="activity_item">
+      <div class="item_title">
+        Password: <img *ngIf="loading.password" src="./assets/img/loading.gif" alt="loading" class="item_load">
+      </div>
+      <div style="display: flex"><input (input)="validate_password('register')" type="password" name="password" [(ngModel)]="register_model.password" class="item_input"><img (click)="show_password('password')" src="./assets/img/eye-icon.png" alt="eye" class="show_password"></div>
+      <div class="item_danger">{{this.error.password}}</div>
+    </div>
+    <div class="activity_item">
+      <div class="item_title">
+        Repeat password: <img *ngIf="loading.r_password" src="./assets/img/loading.gif" alt="loading" class="item_load">
+      </div>
+      <div style="display: flex"><input (input)="passwords_mutch()" type="password" name="r_password" [(ngModel)]="register_model.r_password" class="item_input"><img (click)="show_password('r_password')" src="./assets/img/eye-icon.png" alt="eye" class="show_password"></div>
+      <div class="item_danger">{{this.error.r_password}}</div>
+    </div>
+    <div class="item_danger">
+      {{this.error.register_query}}
+    </div>
+    <div class="button_block">
+      <button (click)="changeState('register');this.sl.use(false);" class="activity_button button_dark">
+        Close
+      </button>
+      <button (click)="create_user()" [disabled]="this.loading.name || this.loading.email || this.loading.password || this.loading.r_password || this.error.name ||  this.error.email ||  this.error.password ||  this.error.r_password" class="activity_button button_dark">
+        Sign up
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Login menu -->
+
+<div [@anim_activity]="state.login" class="activity">
+  <form class="activity_section" novalidate>
+    <div class="activity_title">
+      Sign in
+    </div>
+    <div class="activity_item">
+      <div class="item_title">
+        Email:
+      </div>
+      <input type="text" class="item_input" name="email" [(ngModel)]="login_model.email">
+    </div>
+    <div class="activity_item">
+      <div class="item_title">
+        Password:
+      </div>
+      <div style="display: flex"><input type="password" name="login_password" [(ngModel)]="login_model.password" class="item_input"><img (click)="show_password('login_password')" src="./assets/img/eye-icon.png" alt="eye" class="show_password"></div>
+    </div>
+    <div *ngIf="this.error.login_query || this.loading.login" class="item_danger">
+      {{this.error.login_query}}<img *ngIf="loading.login" src="./assets/img/loading.gif" alt="loading" class="item_load">
+    </div>
+    <div class="button_block">
+      <button (click)="changeState('login');this.sl.use(false);" class="activity_button button_dark">
+        Close
+      </button>
+      <button (click)="login()" [disabled]="!login_model.email || !login_model.password" class="activity_button button_dark">
+        Sign in
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Profile menu -->
+
+<div [@anim_activity]="state.profile" class="activity">
+  <div *ngIf="this.auth.user" class="activity_section">
+    <img (click)="changeState('settings')" src="./assets/img/settings.png" alt="settings" class="settings_button">
+    <div class="activity_title">
+      {{this.state.profile_settings ? 'Settings' : 'Profile'}}
+    </div>
+    <div *ngIf="this.auth.user['err']" class="item_danger">*Can`t get user data:{{this.auth.user['err']}}</div>
+    <div *ngIf="this.state.profile_settings" class="activity_item">
+      <div class="item_title">
+        Avatar:
+      </div>
+      <img class="profile_avatar" [src]="this.avatarPreviewUrl ? this.avatarPreviewUrl : this.auth.user['avatar']" alt="avatar">
+      <div class="item_danger">
+        {{this.error.settings.img}}
+      </div>
+      <div>
+        <input (change)="image_change($event.target['files']['0'])" type="file" style="display: none" name="file_picker" #file_input>
+        <button (click)="file_input.click()" class="activity_button button_dark" style="width: 100px">Change</button>
+      </div>
+    </div>
+    <div class="activity_item">
+      <div *ngIf="!this.state.profile_settings" class="profile_name">
+        <img class="profile_avatar" [src]="this.auth.user['avatar']" alt="avatar"><div>{{this.auth.user['name']}}</div>
+      </div>
+      <div *ngIf="this.state.profile_settings" class="activity_item settings_item">
+        <div class="item_title">
+          Name: <img *ngIf="loading.name" src="./assets/img/loading.gif" alt="loading" class="item_load">
+        </div>
+        <input [placeholder]="this.auth.user['name']" (input)="validate_name('settings')" type="text" class="item_input" name="name" [(ngModel)]="settings_model.name">
+        <div *ngIf="this.settings_model.name" class="item_danger">{{this.error.settings.name}}</div>
+      </div>
+    </div>
+    <div class="activity_item">
+      <div *ngIf="this.auth.user['description'] && !this.state.profile_settings" class="profile_description">
+        {{this.auth.user['description']}}
+      </div>
+      <div *ngIf="this.state.profile_settings" class="activity_item settings_item">
+        <div class="item_title">
+          Description:
+        </div>
+        <textarea [placeholder]="this.auth.user['description']" [maxLength]="319" type="text" class="item_input description_setting" name="description" [(ngModel)]="settings_model.description" > </textarea>
+      </div>
+    </div>
+    <div class="activity_item">
+      <div *ngIf="!this.state.profile_settings" class="item_title">
+        <div id="profile_email">Email:&nbsp;</div><label class="profile_label" for="profile_email">{{this.auth.user['email']}}</label>
+      </div>
+      <div *ngIf="this.state.profile_settings" class="activity_item settings_item">
+        <div class="item_title">
+          Email: <img *ngIf="loading.email" src="./assets/img/loading.gif" alt="loading" class="item_load">
+        </div>
+        <input  [placeholder]="this.auth.user['email']" (input)="validate_Email('settings')" type="text" class="item_input" name="email" [(ngModel)]="settings_model.email">
+        <div *ngIf="this.settings_model.email" class="item_danger">{{this.error.settings.email}}</div>
+      </div>
+    </div>
+    <div class="activity_item">
+      <div *ngIf="!this.state.profile_settings" class="item_title">
+        <div id="profile_country">Country:&nbsp;</div><label class="profile_label" for="profile_country">{{this.auth.user['country'] ? this.auth.user['country'] : '*undefined'}}</label>
+      </div>
+      <div *ngIf="this.state.profile_settings" class="activity_item settings_item">
+        <div class="item_title">
+          Country:
+        </div>
+        <select class="item_input" name="country" id="country" [(ngModel)]="this.settings_model.country">
+          <option value="" selected disabled>{{this.auth.user['country'] ? this.auth.user['country'] : '*undefined'}}</option>
+          <option *ngFor="let a of this.countries" value="{{a}}">{{a}}</option>
+        </select>
+      </div>
+    </div>
+    <div *ngIf="this.state.profile_settings" class="activity_item">
+      <div class="activity_item settings_item">
+        <div class="item_title">
+          Password: <img *ngIf="loading.password" src="./assets/img/loading.gif" alt="loading" class="item_load">
+        </div>
+        <div style="display: flex"><input  placeholder="***" (input)="validate_password('settings')" type="password" name="s_password" [(ngModel)]="settings_model.password" class="item_input"><img (click)="show_password('s_password')" src="./assets/img/eye-icon.png" alt="eye" class="show_password"></div>
+        <div *ngIf="this.settings_model.password" class="item_danger">{{this.error.settings.password}}</div>
+      </div>
+    </div>
+    <div class="activity_item">
+      <div *ngIf="!this.state.profile_settings" class="item_title">
+        <div id="profile_date">Register&nbsp;date:&nbsp;</div><label style="font-style: normal" class="profile_label" for="profile_date">{{this.auth.user['reg_date']}}</label>
+      </div>
+    </div>
+    <div *ngIf="this.error.settings.query || this.loading.settings" class="activity_item item_danger">
+      {{this.error.settings.query}}<img *ngIf="loading.settings" src="./assets/img/loading.gif" alt="loading" class="item_load">
+    </div>
+    <div class="button_block">
+      <button (click)="changeState('profile');this.sl.use(false);" class="activity_button button_dark">
+        Close
+      </button>
+      <button [disabled]="(this.error.settings.password && this.settings_model.password) || (this.error.settings.email && this.settings_model.email) || (this.error.settings.name && this.settings_model.name)|| (this.error.settings.img && this.settings_model.avatar)" *ngIf="state.profile_settings" (click)="save_changes()" class="activity_button button_dark">
+        Save
+      </button>
+    </div>
+  </div>
+</div>

@@ -5,14 +5,15 @@ import { MainComponent } from './components/main/main.component';
 import { OfftopComponent } from './components/offtop/offtop.component';
 import { FanficComponent } from './components/fanfic/fanfic.component';
 import { InfoComponent } from './components/info/info.component';
-import {TokenVerifyGuard} from './guard/token-verify.guard';
+import {WsDisconnectGuard} from './guard/ws-disconnect.guard';
 
 const appRoutes: Routes = [
   { path: '',   redirectTo: '/main', pathMatch: 'full' },
   { path: 'main', component: MainComponent },
-  { path: 'offtop', component: OfftopComponent },
+  { path: 'offtop', component: OfftopComponent, canDeactivate: [WsDisconnectGuard]},
   { path: 'fanfic', component: FanficComponent },
-  { path: 'info', component: InfoComponent }
+  { path: 'info', component: InfoComponent },
+  { path: '**',   redirectTo: '/main' },
 ];
 
 @NgModule({

@@ -50,14 +50,36 @@ module.exports.update = (user,new_data)=>{
                     if(err) reject('Db error');
                 });
             }
-            if(new_data['pass']){
-                client.query('UPDATE users SET password = $1 WHERE id = $2', [new_data['pass'], r['id']], (err)=>{
+            if(new_data['password']){
+                client.query('UPDATE users SET password = $1 WHERE id = $2', [new_data['password'], r['id']], (err)=>{
                     if(err) reject('Db error');
                 });
-                tmp.pass = new_data['pass'];
+                tmp.pass = new_data['password'];
+            }
+            if(new_data['description']){
+                client.query('UPDATE users SET description = $1 WHERE id = $2', [new_data['description'], r['id']], (err)=>{
+                    if(err) reject('Db error');
+                });
+            }
+            if(new_data['country']){
+                client.query('UPDATE users SET country = $1 WHERE id = $2', [new_data['country'], r['id']], (err)=>{
+                    if(err) reject('Db error');
+                });
             }
             resolve(tmp);
         }).catch(e=>{reject(e);});
+    });
+};
+
+module.exports.save_avatar = (dist, email)=>{
+    return new Promise(resolve => {
+        client.query('SELECT avatar FROM users WHERE email = $1', [email], (e,r)=>{
+            client.query('UPDATE users SET avatar = $1 WHERE email = $2',[dist,email], (err)=>{
+                if(err){
+                    resolve({'err':true});
+                }else resolve({'data':r['rows']});
+            });
+        });
     });
 };
 
@@ -68,4 +90,4 @@ module.exports.email_verify = email_verify = (email)=>{
             else resolve(false);
         });
     });
-}
+};

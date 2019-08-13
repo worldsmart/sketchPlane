@@ -38,3 +38,10 @@ html{
 .rc-anchor .rc-anchor-invisible .rc-anchor-light  .rc-anchor-invisible-hover{
  opacity: 0;
 }
+
+.main{
+  height: 1500px;
+  width: 60%;
+  background-color: white;
+  margin: 10px auto 10px  auto;
+}
