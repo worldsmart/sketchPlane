@@ -37,8 +37,9 @@ export class AuthService {
       this.get('api/user/data', localStorage.getItem('jwt')).subscribe(user=>{
         if(!user['avatar']){
           user['avatar'] = './assets/img/default.svg';
-        }else {
-          user['avatar'] = 'data:image/jpeg;base64,' + user['avatar'];
+        }
+        else {
+          user['avatar'] = 'data:image/jpeg;base64,'+user['avatar'];
         }
         this.user = user;
         this.lock = false;

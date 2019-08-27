@@ -16,6 +16,8 @@
 
 html{
     background: #8C6DD7;
+  background-image: url('./assets/img/bg.svg');
+  background-size: 400px 400px;
 }
 
 .button_dark{
@@ -40,8 +42,81 @@ html{
 }
 
 .main{
-  height: 1500px;
+  min-height: 850px;
   width: 60%;
-  background-color: white;
+  background-color: #dce4f2;
   margin: 10px auto 10px  auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 800px;
+}
+
+.post{
+  background-color: white;
+  margin: 4% 5%;
+  box-shadow: -3px 3px 3px 0px #3a4351;
+  border: 1px solid rgba(48, 53, 61,0.3);
+  border-radius: 4px;
+  height: fit-content;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color:#3a4351;
+}
+.post_title{
+  margin: 8px;
+  font-weight: bold;
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.post_title_block{
+  overflow: hidden;
+  height: 30px;
+  width: 94%;
+  white-space: nowrap;
+}
+.post_text{
+  box-shadow: 0px 0px 10px 1px #3a4351;
+  padding: 1% 1% 1px 1%;
+  margin-top: 5px;
+  font-size: 18px;
+}
+.text_container{
+  height: fit-content;
+  overflow: hidden;
+}
+.post_footer{
+  height: 40px;
+  display: flex;
+  align-items: flex-end;
+}
+.post_user{
+  font-size: 18px;
+  display: flex;
+  align-items: flex-end;
+  margin: 3px 3px 3px 30px;
+  max-width: 50%;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.owners_avatar{
+  width: 30px;
+  max-height: 30px;
+  margin-right: 5px;
+  border-radius: 20px;
+}
+.post_date{
+  margin: 3px 8px 3px auto;
+  font-style: italic;
+}
+.added-img{
+  max-width: 85%;
+  min-width: 60%;
+  max-height: 340vw;
+  height: auto;
 }

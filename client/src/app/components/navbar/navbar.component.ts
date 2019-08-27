@@ -18,7 +18,7 @@ import {Observable} from "rxjs";
 
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private guard:TokenVerifyGuard) { }
 
   ngOnInit() {
 

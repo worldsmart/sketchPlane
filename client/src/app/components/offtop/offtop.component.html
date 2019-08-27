@@ -1,10 +1,31 @@
 <div class="main">
-  <div id="status" class="status">
-    {{this.ws.connection_status}}
+  <div *ngIf="this.ws.error && !this.ws.connection_status && this.guard.user()" class="status">
+    *We got server error!
   </div>
-  <div id="block">
+  <div *ngIf="this.ws.connection_status && this.guard.user()" class="new_post_area">
+    <div (click)="spoiler()" class="spoiler" id="spoiler">
+      <label for="spoiler">New post +</label>
+    </div>
+    <div class="new_post_form" id="new_post_form">
+      <div class="post_form">
+        <div>Post title:</div>
+        <input maxlength="160" type="text" class="post_input" [(ngModel)]="post.title" name="post_title">
+        <div>Post text:</div>
+        <textarea maxlength="1080" name="post_text" [(ngModel)]="post.text" class="post_input" id="post_text" cols="30" rows="7"></textarea>
+        <div>
+          <button (click)="spoiler()" class="button_dark post_button">Close</button>
+          <button (click)="new_post()" class="button_dark post_button">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="spoiler" *ngIf="!this.guard.user()" (click)="sign_in()">Sign In to make posts!</div>
+  <div  *ngIf="!this.ws.connection_status && this.guard.user()" style="display: flex;justify-content: center">
+    <img src="./assets/img/loader.gif" alt="loading" class="loader">
+  </div>
+  <div id="block" >
 
   </div>
-  <textarea [(ngModel)]="text"></textarea>
-  <button (click)="click()">Send</button>
+  <img *ngIf="this.load" src="./assets/img/loader.gif" alt="loading" class="loader">
+  <div id="loader"></div>
 </div>

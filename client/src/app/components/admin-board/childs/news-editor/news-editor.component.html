@@ -1,0 +1,14 @@
+<div class="controller">
+  <div (click)="changeMenu('addingTool')" [@viewer]="states.addingTool == 'shown' ? 'selected' : 'unselected'" class="controller-item">Add</div>
+  <div (click)="changeMenu('delTool')" [@viewer]="states.delTool == 'shown' ? 'selected' : 'unselected'" class="controller-item">Delete</div>
+</div>
+<div [@viewer]="states.addingTool" id="add">
+  Add
+  <div>
+    <!--<iframe width="560" height="315" src="https://www.youtube.com/embed/t30dJoaf4GQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+  </div>
+  <app-texteditor [outputData]="takeData"></app-texteditor>
+</div>
+<div [@viewer]="states.delTool" id="delete">
+  Del
+</div>

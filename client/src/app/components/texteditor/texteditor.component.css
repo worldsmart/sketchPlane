@@ -1,0 +1,35 @@
+.texteditor_button{
+  border: 1px solid #3a4351;
+  width: fit-content;
+  height: fit-content;
+  padding: 2px 6px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  background-color: #90a9d1;
+  cursor: pointer;
+  margin: 2px 5px;
+}
+.texteditor_button:hover{
+  background-color: #788cad;
+}
+.context_spoiler{
+  width: 100%;
+  height: fit-content;
+  background-color: rgba(255, 127, 15,0.6);
+}
+.tools{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 4px;
+}
+.toolbar{
+  display: flex;
+}
+.spoiler_item{
+  margin: 4px;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  display: none;
+}

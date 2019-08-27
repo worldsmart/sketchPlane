@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {map} from "rxjs/operators";
 import {register} from "ts-node";
 import {log} from "util";
+import {DataService} from "../../service/data.service";
 
 @Component({
   selector: 'app-flash-activites',
@@ -82,6 +83,12 @@ export class FlashActivitesComponent implements OnInit {
     avatar: null
   }
 
+
+  show_password(target){
+    let element = document.getElementsByName(target)[0];
+    element['type'] == 'password' ? element['type'] = 'text' : element['type'] = 'password';
+  }
+
   changeState(param: string) {
     if (param == 'login') {
       this.state['login'] = this.state['login'] === 'initial' ? 'shown' : 'initial';
@@ -94,12 +101,13 @@ export class FlashActivitesComponent implements OnInit {
     }
   }
 
-  show_password(target){
-    let element = document.getElementsByName(target)[0];
-    element['type'] == 'password' ? element['type'] = 'text' : element['type'] = 'password';
+  constructor(private auth: AuthService, private sl: ScrollLockService, private guard:TokenVerifyGuard, private data:DataService) {
+    this.data.data['onchange'] = ()=>{
+      this.changeState('login');
+      this.sl.use(true);
+    };
   }
 
-  constructor(private auth: AuthService, private sl: ScrollLockService, private guard:TokenVerifyGuard) {}
 
   ngOnInit(): void {
 

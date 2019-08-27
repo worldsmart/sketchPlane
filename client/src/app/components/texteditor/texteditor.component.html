@@ -1,0 +1,27 @@
+
+<div id="txt" contenteditable="true" #textForm>
+
+</div>
+<input (change)="newImg($event.target['files']['0'])" type="file" style="display: none" #imgFilePicker>
+<div (click)="emmit(textForm.innerHTML)">Emmit</div>
+<div class="tools">
+  <div class="toolbar">
+    <div class="texteditor_button" (click)="openSpoiler('image_spoiler')">Add image</div>
+    <div class="texteditor_button" (click)="openSpoiler('video_spoiler')">Add video</div>
+    <div class="texteditor_button" (click)="imgFilePicker.click()">Add image</div>
+  </div>
+  <div id="context_spoiler" class="context_spoiler">
+    <div id="image_spoiler" class="spoiler_item">
+      URL:&nbsp;<input name="input" [(ngModel)]="spoilerText" type="text" #imgURL>&nbsp;<div (click)="addImg(imgURL.value)" class="texteditor_button">Add by URL</div>
+      &nbsp;||&nbsp;<div (click)="imgFilePicker.click()" class="texteditor_button">Add by file</div>
+      <div style="margin-left: auto" (click)="close('image_spoiler')" class="texteditor_button" >Close</div>
+    </div>
+    <div id="video_spoiler" class="spoiler_item">
+      URL:&nbsp;<input name="input" [(ngModel)]="spoilerText" type="text" #videoURL>&nbsp;<div (click)="addVideoLink(videoURL.value)" class="texteditor_button">Add by URL</div>
+      &nbsp;||&nbsp;<div (click)="imgFilePicker.click()" class="texteditor_button">Add by file</div>
+      <div style="margin-left: auto" (click)="close('image_spoiler')" class="texteditor_button" >Close</div>
+    </div>
+  </div>
+</div>
+
+

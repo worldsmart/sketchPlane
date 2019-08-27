@@ -1,0 +1,16 @@
+.controller{
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  border-bottom: 1px solid #3a4351;
+}
+.controller-item{
+  border-left: 1px solid #3a4351;
+  flex-grow: 1;
+  padding: 3px;
+  text-align: center;
+  cursor: pointer;
+}
+.controller-item:hover{
+  background-color: rgba(58, 67, 81, 0.3);
+}

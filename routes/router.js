@@ -1,11 +1,16 @@
 const router = require('express').Router();
 const path = require('path');
 
+
 const user = require('./user.js');
 router.use('/api/user',user);
 
 const offtop = require('./offtop.js');
 router.use('/api/offtop',offtop);
+
+const admin = require('./admin.js');
+router.use('/api/admin',admin);
+
 
 router.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,'..','index.html'));

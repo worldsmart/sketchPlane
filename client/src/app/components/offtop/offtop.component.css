@@ -1,3 +1,50 @@
 .status{
-  color: #07ad33;
+  color: red;
+  align-self: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin: 5px;
+}
+.loader{
+  width: 100px;
+  height: auto;
+  align-self: center;
+}
+.new_post_area{
+  display: flex;
+  flex-direction: column;
+}
+.spoiler{
+  color:#3a4351;
+  background-color: cornflowerblue;
+  cursor: pointer;
+  text-align: center;
+  font-size: 18px;
+  padding: 5px;
+}
+.new_post_form{
+  overflow: hidden;
+  height: 0;
+}
+.post_input{
+  flex-grow: 1;
+  font-size: 16px;
+}
+
+.post_input:focus{
+  border: 2px solid rgba(140, 109, 215, 0.9);
+  outline:none;
+  box-shadow: 0px 0px 2px 1px rgba(140, 109, 215, 0.9);
+}
+.post_form{
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #3a4351;
+}
+.post_button{
+  margin: 5px;
+  padding: 5px 10px;
+  font-size: 14px;
 }

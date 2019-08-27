@@ -15,6 +15,11 @@ import { OfftopComponent } from './components/offtop/offtop.component';
 import { FanficComponent } from './components/fanfic/fanfic.component';
 import { InfoComponent } from './components/info/info.component';
 import { FlashActivitesComponent } from './components/flash-activites/flash-activites.component';
+import { AdminBoardComponent } from './components/admin-board/admin-board.component';
+import { NewsEditorComponent } from './components/admin-board/childs/news-editor/news-editor.component';
+import { PostsEditorComponent } from './components/admin-board/childs/posts-editor/posts-editor.component';
+import { UsersEditorComponent } from './components/admin-board/childs/users-editor/users-editor.component';
+import { TexteditorComponent } from './components/texteditor/texteditor.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +30,12 @@ import { FlashActivitesComponent } from './components/flash-activites/flash-acti
     OfftopComponent,
     FanficComponent,
     InfoComponent,
-    FlashActivitesComponent
+    FlashActivitesComponent,
+    AdminBoardComponent,
+    NewsEditorComponent,
+    PostsEditorComponent,
+    UsersEditorComponent,
+    TexteditorComponent
   ],
   imports: [
     BrowserModule,

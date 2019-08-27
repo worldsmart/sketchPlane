@@ -79,7 +79,7 @@
       <button (click)="changeState('login');this.sl.use(false);" class="activity_button button_dark">
         Close
       </button>
-      <button (click)="login()" [disabled]="!login_model.email || !login_model.password" class="activity_button button_dark">
+      <button type="submit" (click)="login()" [disabled]="!login_model.email || !login_model.password" class="activity_button button_dark">
         Sign in
       </button>
     </div>
@@ -94,6 +94,7 @@
     <div class="activity_title">
       {{this.state.profile_settings ? 'Settings' : 'Profile'}}
     </div>
+    {{this.auth.user['role'] == 2 ? '(admin)' : this.auth.user['role'] == 1 ? '(moder)' : ''}}
     <div *ngIf="this.auth.user['err']" class="item_danger">*Can`t get user data:{{this.auth.user['err']}}</div>
     <div *ngIf="this.state.profile_settings" class="activity_item">
       <div class="item_title">
@@ -168,7 +169,7 @@
     </div>
     <div class="activity_item">
       <div *ngIf="!this.state.profile_settings" class="item_title">
-        <div id="profile_date">Register&nbsp;date:&nbsp;</div><label style="font-style: normal" class="profile_label" for="profile_date">{{this.auth.user['reg_date']}}</label>
+        <div id="profile_date">Register&nbsp;date:&nbsp;</div><label style="font-style: normal" class="profile_label" for="profile_date">{{this.auth.user['date']}}</label>
       </div>
     </div>
     <div *ngIf="this.error.settings.query || this.loading.settings" class="activity_item item_danger">

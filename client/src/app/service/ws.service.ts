@@ -9,16 +9,17 @@ export class WsService {
   private ws = undefined;
   connection_status:boolean = false;
   error = undefined;
-  connect(){
+  connect(onMsg){
     let websocket = new WebSocket('ws://localhost:3228/api/offtop/echo');
     websocket.onopen = ()=>{
+      websocket.onmessage = onMsg;
       this.ws = websocket;
       this.connection_status = true;
     }
     websocket.onclose = ()=>{
       this.connection_status = false;
       this.ws = websocket;
-      this.auto_reconnect();
+      this.auto_reconnect(onMsg);
     }
     websocket.onerror = (error)=>{
       this.error = error;
@@ -33,24 +34,20 @@ private lock:boolean = false;
     }
   }
 
-  send(name,data){
+  send(type,data){
       this.loop(()=>{
         this.ws.send(JSON.stringify({
-          'name':name,
+          'type':type,
           'data':data
         }));
       });
   }
-  onmessage(cb){
-    this.loop(()=>{
-      this.ws.onmessage = cb;
-    });
-  }
-  private auto_reconnect(){
+
+  private auto_reconnect(ms){
         setTimeout(()=>{
           if(this.ws && !this.lock){
           if(this.ws)this.ws.close();
-          this.connect();
+          this.connect(ms);
           }else this.lock = false;
         },3000);
   }

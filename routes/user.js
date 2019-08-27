@@ -66,11 +66,12 @@ router.get('/data',(req,res)=>{
     jwt.decode(req.headers.authorization).then((user)=>{
         if(user){
             db.get(user).then(r=>{
+                r = r.toObject();
+                r['date'] = r['date'].getDate() + '.' + r['date'].getDay() + '.' + r['date'].getFullYear() + '  ' + r['date'].getMinutes() + ':' + r['date'].getHours();
                 delete r['password'];
-                r['reg_date'] = r['reg_date'].getDay() + '.'+ r['reg_date'].getDate() + '.' + r['reg_date'].getFullYear();
-                fs.readFile(path.join(__dirname + '/..' + '/uploads/' + r['avatar']), 'base64', (err,data)=>{
+                fs.readFile(path.join(__dirname + '/..' + '/uploads/' + r['avatar']), 'base64',(err,data)=>{
                     if(err){
-                        delete r['avatar'];
+                        r['avatar'] = undefined;
                     } else {
                         r['avatar'] = data;
                     }
@@ -109,11 +110,11 @@ router.post('/save_avatar', upload.single('avatar'),(req,res)=>{
         if(!r){
             res.json({'err':'Server err'});
         } else {
-            db.save_avatar(req.file['filename'], r['email']).then(r=>{
+            db.save_avatar(req.file['filename'], r).then(r=>{
                 if(r['err']){
                     res.json({'err':'Db err'});
-                }else if(r['data'][0]){
-                    fs.unlink(path.join(__dirname + '/..' + '/uploads/' + r['data'][0]['avatar']), (err)=>{
+                }else if(r['data']){
+                    fs.unlink(path.join(__dirname + '/..' + '/uploads/' + r['data']), (err)=>{
                         res.json({'success':true});
                     });
                 } else res.json({'success':true});

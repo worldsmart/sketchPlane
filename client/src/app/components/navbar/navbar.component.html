@@ -11,8 +11,9 @@
 	<div class="nav">
 		<div class="nav_item" style="border-left: none;" routerLinkActive="active" routerLink="/main"><label>Main</label></div>
 		<div class="nav_item" routerLinkActive="active" routerLink="/offtop">OffTop</div>
-		<div class="nav_item" routerLinkActive="active" routerLink="/fanfic">FanFic</div>
+		<div class="nav_item" routerLinkActive="active" routerLink="/fanfic">Tools</div>
 		<div class="nav_item" routerLinkActive="active" routerLink="/info">Info</div>
+    <div *ngIf="this.guard.moder() || this.guard.admin()" class="nav_item" routerLinkActive="active" routerLink="admin">Admin-board</div>
     <app-flash-activites></app-flash-activites>
 	</div>
 </div>
